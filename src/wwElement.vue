@@ -450,6 +450,11 @@ export default {
         // Reset to initial state when entering preview mode
         this.selectedValue = 5; // Default preview value
         this.answers = this.questions.map(() => null);
+      } else {
+        // Reset to step 1 when exiting preview mode
+        this.currentStepIndex = 0;
+        this.selectedValue = null;
+        this.answers = [];
       }
     },
   },
@@ -539,12 +544,22 @@ export default {
       const activeValue = this.hoverValue !== null ? this.hoverValue : this.selectedValue;
       const isFilled = activeValue !== null && n <= activeValue;
       if (!isFilled) return 'transparent';
+      // For neutral color scheme, use primaryColor instead of starColor
+      if (this.content.colorScheme === 'neutral') {
+        return this.content.primaryColor || '#1976D2';
+      }
       return this.starColor;
     },
     getStarStroke(n) {
       const activeValue = this.hoverValue !== null ? this.hoverValue : this.selectedValue;
       const isFilled = activeValue !== null && n <= activeValue;
-      if (isFilled) return this.starColor;
+      if (isFilled) {
+        // For neutral color scheme, use primaryColor instead of starColor
+        if (this.content.colorScheme === 'neutral') {
+          return this.content.primaryColor || '#1976D2';
+        }
+        return this.starColor;
+      }
       return '#BDBDBD';
     },
     getOptionStyle(option) {
