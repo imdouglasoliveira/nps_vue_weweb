@@ -1,9 +1,9 @@
 <template>
   <div class="nps-wrapper" :class="wrapperClasses" :style="wrapperStyle">
 
-    <!-- Minimized Bar (shown when collapsed) -->
+    <!-- Minimized Bar (shown when collapsed in fixed footer mode with bar style) -->
     <div
-      v-if="isMinimized && positionMode === 'fixed'"
+      v-if="isMinimized && positionMode === 'fixed' && !useFloatingIcon && isControlledOpen"
       class="nps-minimized"
       :class="minimizedPositionClass"
       :style="minimizedStyle"
@@ -13,8 +13,19 @@
       <component :is="minimizedIconComponent" v-if="minimizedIcon !== 'none'" class="minimized-icon" />
     </div>
 
-    <!-- Preview Mode Indicator & Controls -->
-    <div v-if="isPreviewMode" class="preview-controls">
+    <!-- Floating Icon (shown when minimized and useFloatingIcon is true) -->
+    <div
+      v-if="isMinimized && useFloatingIcon && isControlledOpen"
+      class="nps-floating-icon"
+      :style="floatingIconStyle"
+      @click="handleExpand"
+    >
+      <component :is="minimizedIconComponent" v-if="minimizedIcon !== 'none'" />
+      <StarIcon v-else />
+    </div>
+
+    <!-- Preview Mode Indicator & Controls (only show if more than 1 step) -->
+    <div v-if="isPreviewMode && totalSteps > 2" class="preview-controls">
       <span class="preview-badge">PREVIEW MODE</span>
       <div class="preview-nav">
         <button class="preview-btn" @click="previewPrevStep" :disabled="currentStepIndex === 0">
@@ -28,7 +39,7 @@
     </div>
 
     <!-- Full NPS Panel -->
-    <div class="nps-host" :style="hostStyle" v-show="isVisible && !isMinimized">
+    <div class="nps-host" :style="hostStyle" v-show="isVisible && !isMinimized && isControlledOpen">
       <!-- Close Button -->
       <button
         v-if="content.showCloseButton !== false"
@@ -370,8 +381,58 @@ export default {
     isPreviewMode() {
       return this.content.previewMode === true;
     },
+    isControlledOpen() {
+      // If not defined, assume true (default behavior)
+      return this.content.isOpen !== false;
+    },
+    floatingIconStyle() {
+      const horizontal = this.content.floatingIconHorizontal || 'right';
+      const vertical = this.content.floatingIconVertical || 'bottom';
+
+      const style = {
+        backgroundColor: this.content.minimizedBackgroundColor || '#ffffff',
+        '--icon-color': this.content.minimizedIconColor || '#1976D2',
+      };
+
+      // Horizontal position
+      if (horizontal === 'left') {
+        style.left = '20px';
+        style.right = 'auto';
+      } else {
+        style.right = '20px';
+        style.left = 'auto';
+      }
+
+      // Vertical position
+      if (vertical === 'top') {
+        style.top = '20px';
+        style.bottom = 'auto';
+      } else {
+        style.bottom = '20px';
+        style.top = 'auto';
+      }
+
+      return style;
+    },
+    useFloatingIcon() {
+      // Inline mode always uses floating icon
+      if (this.positionMode === 'inline') return true;
+      // Fixed mode uses floating icon if minimizedStyle is 'floatingIcon'
+      return this.content.minimizedStyle === 'floatingIcon';
+    },
   },
   watch: {
+    'content.isOpen': {
+      handler(newVal, oldVal) {
+        if (newVal === true && oldVal === false) {
+          // Reset to initial state when reopening
+          this.currentStepIndex = 0;
+          this.selectedValue = null;
+          this.answers = [];
+          this.isMinimized = false;
+        }
+      },
+    },
     'content.previewStep': {
       handler(newStep) {
         if (this.isPreviewMode && typeof newStep === 'number') {
@@ -563,7 +624,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+  border-bottom: 1px solid #ddd;
   padding: 8px 16px;
   gap: 12px;
 }
@@ -571,7 +633,7 @@ export default {
 .preview-badge {
   font-size: 11px;
   font-weight: 700;
-  color: #fff;
+  color: #666;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -588,16 +650,17 @@ export default {
   justify-content: center;
   width: 28px;
   height: 28px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
+  background: #fff;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  color: #fff;
+  color: #555;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .preview-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.3);
+  background: #f0f0f0;
+  border-color: #999;
 }
 
 .preview-btn:disabled {
@@ -608,7 +671,7 @@ export default {
 .preview-step-info {
   font-size: 12px;
   font-weight: 600;
-  color: #fff;
+  color: #555;
   min-width: 80px;
   text-align: center;
 }
@@ -659,6 +722,30 @@ export default {
 
 .minimized-icon {
   flex-shrink: 0;
+  color: var(--icon-color, #1976D2);
+}
+
+/* Floating Icon (minimized state) */
+.nps-floating-icon {
+  position: fixed;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  transition: all 0.2s ease;
+}
+
+.nps-floating-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.nps-floating-icon svg {
   color: var(--icon-color, #1976D2);
 }
 

@@ -4,8 +4,8 @@
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](prd.md)
 
 **Projeto:** NPS Vue Component
-**Versão:** 1.1
-**Data:** 13/12/2025
+**Versão:** 1.2
+**Data:** 14/12/2025
 **Status:** Produção
 
 ---
@@ -110,6 +110,10 @@ Criar um componente NPS flexível que permita:
 | RF13 | Modo preview para testes | Média | ✅ |
 | RF14 | Navegação de voltar entre steps | Média | ✅ |
 | RF15 | Evento imediato de nota (ratingSelected) | Alta | ✅ |
+| RF16 | Ícone flutuante quando minimizado (inline mode) | Alta | ✅ |
+| RF17 | Controle de visibilidade via workflow (isOpen) | Alta | ✅ |
+| RF18 | Posição configurável do ícone flutuante | Média | ✅ |
+| RF19 | Opção de ícone flutuante no modo fixed footer | Média | ✅ |
 
 ### 3.2 Configurabilidade
 
@@ -132,6 +136,10 @@ Criar um componente NPS flexível que permita:
 | CF15 | `previewStep` | number | 0-n | `0` |
 | CF16 | `autoCloseDelay` | number | ms | `0` |
 | CF17 | `showDelay` | number | ms | `0` |
+| CF18 | `isOpen` | boolean | true/false | `true` |
+| CF19 | `minimizedStyle` | enum | `bar`, `floatingIcon` | `bar` |
+| CF20 | `floatingIconHorizontal` | enum | `left`, `right` | `right` |
+| CF21 | `floatingIconVertical` | enum | `top`, `bottom` | `bottom` |
 
 ### 3.3 Eventos/Callbacks
 
@@ -345,6 +353,12 @@ export default {
 - [x] Navegação de voltar
 - [x] Evento imediato de nota
 
+### Fase 2.5 - Controles Avançados ✅
+- [x] Ícone flutuante quando minimizado no modo inline
+- [x] Controle de visibilidade via workflow (isOpen bindable)
+- [x] Posição configurável do ícone flutuante (left/right, top/bottom)
+- [x] Opção de ícone flutuante ou barra no modo fixed footer
+
 ### Fase 3 - Avançado (Futuro)
 - [ ] Animações de transição
 - [ ] Integração analytics
@@ -373,4 +387,4 @@ export default {
 
 ---
 
-**Última atualização:** 13/12/2025
+**Última atualização:** 14/12/2025

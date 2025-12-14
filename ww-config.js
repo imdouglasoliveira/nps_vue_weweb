@@ -52,6 +52,20 @@ export default {
     },
 
     // ===========================================
+    // VISIBILITY CONTROL
+    // ===========================================
+    isOpen: {
+      label: {
+        en: "Is Open (Controlled)",
+        pt: "Está Aberto (Controlado)",
+      },
+      type: "OnOff",
+      section: "settings",
+      defaultValue: true,
+      bindable: true,
+    },
+
+    // ===========================================
     // POSITION & BEHAVIOR
     // ===========================================
     positionMode: {
@@ -185,6 +199,52 @@ export default {
       section: "settings",
       defaultValue: "#1976D2",
       bindable: true,
+    },
+    minimizedStyle: {
+      label: {
+        en: "Minimized Style",
+        pt: "Estilo Minimizado",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "bar", label: { en: "Bar", pt: "Barra" } },
+          { value: "floatingIcon", label: { en: "Floating Icon", pt: "Ícone Flutuante" } },
+        ],
+      },
+      defaultValue: "bar",
+      hidden: (content) => content.positionMode !== 'fixed',
+    },
+    floatingIconHorizontal: {
+      label: {
+        en: "Floating Icon Horizontal",
+        pt: "Ícone Flutuante Horizontal",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "right", label: { en: "Right", pt: "Direita" } },
+          { value: "left", label: { en: "Left", pt: "Esquerda" } },
+        ],
+      },
+      defaultValue: "right",
+    },
+    floatingIconVertical: {
+      label: {
+        en: "Floating Icon Vertical",
+        pt: "Ícone Flutuante Vertical",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "bottom", label: { en: "Bottom", pt: "Inferior" } },
+          { value: "top", label: { en: "Top", pt: "Superior" } },
+        ],
+      },
+      defaultValue: "bottom",
     },
 
     // ===========================================

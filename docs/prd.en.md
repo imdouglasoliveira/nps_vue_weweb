@@ -4,8 +4,8 @@
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](prd.md)
 
 **Project:** NPS Vue Component
-**Version:** 1.1
-**Date:** December 13, 2025
+**Version:** 1.2
+**Date:** December 14, 2025
 **Status:** Production Ready
 
 ---
@@ -110,6 +110,10 @@ Create a flexible NPS component that allows:
 | RF13 | Preview mode for testing | Medium | ✅ |
 | RF14 | Back navigation between steps | Medium | ✅ |
 | RF15 | Immediate rating event (ratingSelected) | High | ✅ |
+| RF16 | Floating icon when minimized (inline mode) | High | ✅ |
+| RF17 | Visibility control via workflow (isOpen) | High | ✅ |
+| RF18 | Configurable floating icon position | Medium | ✅ |
+| RF19 | Floating icon option in fixed footer mode | Medium | ✅ |
 
 ### 3.2 Configurability
 
@@ -132,6 +136,10 @@ Create a flexible NPS component that allows:
 | CF15 | `previewStep` | number | 0-n | `0` |
 | CF16 | `autoCloseDelay` | number | ms | `0` |
 | CF17 | `showDelay` | number | ms | `0` |
+| CF18 | `isOpen` | boolean | true/false | `true` |
+| CF19 | `minimizedStyle` | enum | `bar`, `floatingIcon` | `bar` |
+| CF20 | `floatingIconHorizontal` | enum | `left`, `right` | `right` |
+| CF21 | `floatingIconVertical` | enum | `top`, `bottom` | `bottom` |
 
 ### 3.3 Events/Callbacks
 
@@ -345,6 +353,12 @@ export default {
 - [x] Back navigation
 - [x] Immediate rating event
 
+### Phase 2.5 - Advanced Controls ✅
+- [x] Floating icon when minimized in inline mode
+- [x] Visibility control via workflow (isOpen bindable)
+- [x] Configurable floating icon position (left/right, top/bottom)
+- [x] Floating icon or bar option in fixed footer mode
+
 ### Phase 3 - Advanced (Future)
 - [ ] Transition animations
 - [ ] Analytics integration
@@ -373,4 +387,4 @@ export default {
 
 ---
 
-**Last updated:** December 13, 2025
+**Last updated:** December 14, 2025

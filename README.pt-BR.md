@@ -13,6 +13,8 @@ Componente customizado de Net Promoter Score (NPS) desenvolvido em Vue.js para i
 - **Perguntas Dinâmicas**: Vincule perguntas adicionais do banco de dados/JSON
 - **Fluxo Multi-step**: Avaliação → Perguntas Curtas → Texto Livre → Obrigado
 - **Modo Footer Fixo**: Barra inferior fixa com minimizar/expandir
+- **Modo Ícone Flutuante**: Botão flutuante configurável quando minimizado
+- **Controle de Visibilidade**: Controle a exibição do NPS via workflow (propriedade isOpen bindable)
 - **Navegação Voltar**: Permite usuários voltarem e alterarem respostas
 - **Eventos Workflow**: Integração completa com workflows do WeWeb
 
@@ -72,6 +74,17 @@ nps_vue/
 - Preenche automaticamente a nota com valor padrão (5) para testes
 - **Importante:** Desabilite o modo preview antes de publicar em produção!
 
+### Controle de Visibilidade
+
+| Propriedade | Tipo | Padrão | Descrição |
+|-------------|------|--------|-----------|
+| `isOpen` | OnOff | `true` | Controla visibilidade do NPS via workflow (bindable) |
+
+**Uso:** Vincule esta propriedade a uma variável do WeWeb para controlar quando o NPS é exibido. Útil para:
+- Mostrar NPS apenas uma vez por ação do usuário
+- Ocultar NPS após submissão
+- Exibição condicional baseada no estado do usuário
+
 ### Posição e Comportamento
 
 | Propriedade | Tipo | Padrão | Descrição |
@@ -82,16 +95,21 @@ nps_vue/
 | `showBackButton` | OnOff | `true` | Mostrar botão voltar nos steps |
 | `autoCloseDelay` | Number | `0` | Auto-minimizar após enviar (ms) |
 
-### Barra Minimizada (Modo Footer Fixo)
+### Barra Minimizada / Ícone Flutuante
 
 | Propriedade | Tipo | Padrão | Descrição |
 |-------------|------|--------|-----------|
-| `minimizedText` | Text | `Evaluate the platform` | Texto quando minimizado |
+| `minimizedStyle` | TextSelect | `bar` | Estilo quando minimizado: `bar` ou `floatingIcon` (apenas para modo fixed) |
+| `minimizedText` | Text | `Evaluate the platform` | Texto quando minimizado (modo barra) |
 | `minimizedIcon` | TextSelect | `star` | Ícone: `star`, `chat`, `heart`, `thumbsUp`, `smile`, `none` |
-| `minimizedPosition` | TextSelect | `center` | Alinhamento: `left`, `center`, `right` |
+| `minimizedPosition` | TextSelect | `center` | Alinhamento: `left`, `center`, `right` (modo barra) |
 | `minimizedBackgroundColor` | Color | `#ffffff` | Cor de fundo |
 | `minimizedTextColor` | Color | `#333333` | Cor do texto |
 | `minimizedIconColor` | Color | `#1976D2` | Cor do ícone |
+| `floatingIconHorizontal` | TextSelect | `right` | Posição horizontal do ícone flutuante: `left` ou `right` |
+| `floatingIconVertical` | TextSelect | `bottom` | Posição vertical do ícone flutuante: `top` ou `bottom` |
+
+**Nota:** No modo `inline`, o ícone flutuante é sempre exibido quando minimizado. No modo `fixed`, você pode escolher entre barra ou ícone flutuante.
 
 ### Estilo Visual
 
@@ -212,8 +230,25 @@ O evento `submit` dispara apenas quando o usuário completa todo o fluxo.
 ### Modo Footer Fixo
 
 1. Configure `positionMode` para `fixed`
-2. Configure a aparência da barra minimizada
-3. Configure `autoCloseDelay` para auto-minimizar após enviar (ex: `3000` para 3 segundos)
+2. Escolha `minimizedStyle`: `bar` (padrão) ou `floatingIcon`
+3. Configure a aparência da barra/ícone minimizado
+4. Configure `autoCloseDelay` para auto-minimizar após enviar (ex: `3000` para 3 segundos)
+
+### Posição do Ícone Flutuante
+
+1. Configure `floatingIconHorizontal` para `left` ou `right`
+2. Configure `floatingIconVertical` para `top` ou `bottom`
+3. Customize as cores com `minimizedBackgroundColor` e `minimizedIconColor`
+
+### Controlando Visibilidade via Workflow
+
+1. Crie uma variável `showNPS` (boolean) no WeWeb
+2. Vincule a propriedade `isOpen` à sua variável `showNPS`
+3. No workflow:
+   - Verifique se o usuário já respondeu (query no banco)
+   - Se já respondeu: defina `showNPS = false`
+   - Se não respondeu: defina `showNPS = true`
+4. No evento `submit`: salve a resposta e defina `showNPS = false`
 
 ### Testando com Modo Preview
 

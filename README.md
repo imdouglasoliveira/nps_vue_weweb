@@ -13,6 +13,8 @@ Custom Net Promoter Score (NPS) component built with Vue.js for integration with
 - **Dynamic Questions**: Bind additional questions from database/JSON
 - **Multi-step Flow**: Rating → Short Questions → Free Text → Thank You
 - **Fixed Footer Mode**: Sticky bottom bar with minimize/expand
+- **Floating Icon Mode**: Configurable floating button when minimized
+- **Visibility Control**: Control NPS display via workflow (isOpen bindable property)
 - **Back Navigation**: Allow users to go back and change answers
 - **Workflow Events**: Full integration with WeWeb workflows
 
@@ -72,6 +74,17 @@ nps_vue/
 - Auto-fills rating with a default value (5) for testing
 - **Important:** Disable preview mode before publishing to production!
 
+### Visibility Control
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `isOpen` | OnOff | `true` | Control NPS visibility via workflow (bindable) |
+
+**Usage:** Bind this property to a WeWeb variable to control when the NPS is shown. Useful for:
+- Showing NPS only once per user action
+- Hiding NPS after submission
+- Conditional display based on user state
+
 ### Position & Behavior
 
 | Property | Type | Default | Description |
@@ -82,16 +95,21 @@ nps_vue/
 | `showBackButton` | OnOff | `true` | Show back button on steps |
 | `autoCloseDelay` | Number | `0` | Auto-minimize after submit (ms) |
 
-### Minimized Bar (Fixed Footer Mode)
+### Minimized Bar / Floating Icon
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `minimizedText` | Text | `Evaluate the platform` | Text shown when minimized |
+| `minimizedStyle` | TextSelect | `bar` | Style when minimized: `bar` or `floatingIcon` (only for fixed mode) |
+| `minimizedText` | Text | `Evaluate the platform` | Text shown when minimized (bar mode) |
 | `minimizedIcon` | TextSelect | `star` | Icon: `star`, `chat`, `heart`, `thumbsUp`, `smile`, `none` |
-| `minimizedPosition` | TextSelect | `center` | Alignment: `left`, `center`, `right` |
+| `minimizedPosition` | TextSelect | `center` | Alignment: `left`, `center`, `right` (bar mode) |
 | `minimizedBackgroundColor` | Color | `#ffffff` | Background color |
 | `minimizedTextColor` | Color | `#333333` | Text color |
 | `minimizedIconColor` | Color | `#1976D2` | Icon color |
+| `floatingIconHorizontal` | TextSelect | `right` | Floating icon horizontal position: `left` or `right` |
+| `floatingIconVertical` | TextSelect | `bottom` | Floating icon vertical position: `top` or `bottom` |
+
+**Note:** In `inline` mode, the floating icon is always shown when minimized. In `fixed` mode, you can choose between a bar or floating icon style.
 
 ### Visual Styling
 
@@ -212,8 +230,25 @@ The `submit` event fires only when the user completes the entire flow.
 ### Fixed Footer Mode
 
 1. Set `positionMode` to `fixed`
-2. Configure minimized bar appearance
-3. Set `autoCloseDelay` to auto-minimize after submit (e.g., `3000` for 3 seconds)
+2. Choose `minimizedStyle`: `bar` (default) or `floatingIcon`
+3. Configure minimized bar/icon appearance
+4. Set `autoCloseDelay` to auto-minimize after submit (e.g., `3000` for 3 seconds)
+
+### Floating Icon Position
+
+1. Set `floatingIconHorizontal` to `left` or `right`
+2. Set `floatingIconVertical` to `top` or `bottom`
+3. Customize colors with `minimizedBackgroundColor` and `minimizedIconColor`
+
+### Controlling Visibility via Workflow
+
+1. Create a variable `showNPS` (boolean) in WeWeb
+2. Bind `isOpen` property to your `showNPS` variable
+3. In workflow:
+   - Check if user already responded (query database)
+   - If already responded: set `showNPS = false`
+   - If not responded: set `showNPS = true`
+4. On `submit` event: save response and set `showNPS = false`
 
 ### Testing with Preview Mode
 
