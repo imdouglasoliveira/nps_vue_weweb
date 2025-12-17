@@ -144,7 +144,7 @@
             {{ content.nextButtonText || 'Next' }}
           </button>
           <button
-            v-else-if="!shouldAutoSubmitEmoji"
+            v-else-if="!shouldAutoSubmit"
             class="nps-submit"
             :style="submitBtnStyle"
             :disabled="selectedValue === null"
@@ -345,9 +345,9 @@ export default {
     isCompactMode() {
       return this.content.displayMode === 'compact';
     },
-    shouldAutoSubmitEmoji() {
-      // Auto-submit only for emojis in compact mode without additional questions
-      return this.isCompactMode && this.displayType === 'emojis' && !this.hasMoreSteps;
+    shouldAutoSubmit() {
+      // Auto-submit for ALL types in compact mode without additional questions
+      return this.isCompactMode && !this.hasMoreSteps;
     },
     compactPosition() {
       return this.content.compactPosition || 'bottom-left';
@@ -691,7 +691,7 @@ export default {
       });
 
       // Auto-submit in compact mode without additional questions
-      if (this.shouldAutoSubmitEmoji) {
+      if (this.shouldAutoSubmit) {
         this.handleSubmit();
       }
     },
@@ -933,12 +933,14 @@ export default {
   text-align: center;
 }
 
-/* Compact Mode - Numbers */
+/* Compact Mode - Numbers: 6+5 layout */
 .nps-host.nps-compact .nps-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 4px;
+  max-width: 190px; /* Forces 6+5 layout: (6 * 28px) + (5 * 4px gap) = 188px */
+  margin: 0 auto;
 }
 
 .nps-host.nps-compact .nps-btn {
@@ -948,12 +950,14 @@ export default {
   border-radius: 6px;
 }
 
-/* Compact Mode - Stars */
+/* Compact Mode - Stars: 6+5 layout */
 .nps-host.nps-compact .nps-stars {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 2px;
+  max-width: 202px; /* Forces 6+5 layout: (6 * 32px) + (5 * 2px gap) = 202px */
+  margin: 0 auto;
 }
 
 .nps-host.nps-compact .nps-star {
