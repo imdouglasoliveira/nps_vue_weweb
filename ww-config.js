@@ -8,70 +8,235 @@ export default {
   },
   properties: {
     // ===========================================
-    // QUESTIONS DATA SOURCE (from DB/JSON binding)
+    // 1. RATING DISPLAY
     // ===========================================
-    questions: {
+    displayType: {
       label: {
-        en: "Additional Questions (JSON/DB)",
-        pt: "Perguntas Adicionais (JSON/DB)",
+        en: "Rating Style",
+        pt: "Estilo de Avaliação",
       },
-      type: "Array",
+      type: "TextSelect",
       section: "settings",
-      bindable: true,
-      defaultValue: [],
       options: {
-        item: {
-          type: "Object",
-          defaultValue: { type: "shortQuestion", question: "", options: [] },
-        },
+        options: [
+          { value: "numbers", label: { en: "Numbers", pt: "Números" } },
+          { value: "stars", label: { en: "Stars", pt: "Estrelas" } },
+          { value: "emojis", label: { en: "Emojis", pt: "Emojis" } },
+        ],
       },
+      defaultValue: "numbers",
     },
-
-    // ===========================================
-    // PREVIEW / TEST MODE
-    // ===========================================
-    previewMode: {
+    question: {
       label: {
-        en: "Preview Mode (Testing)",
-        pt: "Modo Preview (Teste)",
+        en: "Question",
+        pt: "Pergunta",
       },
-      type: "OnOff",
+      type: "Text",
       section: "settings",
-      defaultValue: false,
+      defaultValue: "How likely are you to recommend us?",
+      bindable: true,
     },
-    previewStep: {
+    colorScheme: {
       label: {
-        en: "Preview Step",
-        pt: "Step de Preview",
+        en: "Color Mode",
+        pt: "Modo de Cores",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "colorful", label: { en: "Colorful", pt: "Colorido" } },
+          { value: "neutral", label: { en: "Neutral", pt: "Neutro" } },
+        ],
+      },
+      defaultValue: "colorful",
+      hidden: (content) => content.displayType !== "numbers",
+    },
+    minValue: {
+      label: {
+        en: "Scale Min",
+        pt: "Escala Mín",
       },
       type: "Number",
       section: "settings",
       defaultValue: 0,
       bindable: true,
-      hidden: (content) => !content.previewMode,
+      hidden: (content) => content.displayType === "emojis",
     },
-
-    // ===========================================
-    // VISIBILITY CONTROL
-    // ===========================================
-    isOpen: {
+    maxValue: {
       label: {
-        en: "Is Open (Controlled)",
-        pt: "Está Aberto (Controlado)",
+        en: "Scale Max",
+        pt: "Escala Máx",
+      },
+      type: "Number",
+      section: "settings",
+      defaultValue: 10,
+      bindable: true,
+      hidden: (content) => content.displayType === "emojis",
+    },
+    buttonSize: {
+      label: {
+        en: "Size (px)",
+        pt: "Tamanho (px)",
+      },
+      type: "Number",
+      section: "settings",
+      defaultValue: 40,
+      bindable: true,
+      hidden: (content) => content.displayType === "emojis",
+    },
+    showLabels: {
+      label: {
+        en: "Scale Labels",
+        pt: "Legendas da Escala",
       },
       type: "OnOff",
       section: "settings",
       defaultValue: true,
+    },
+    lowLabel: {
+      label: {
+        en: "Min Label",
+        pt: "Legenda Mín",
+      },
+      type: "Text",
+      section: "settings",
+      defaultValue: "Not likely",
       bindable: true,
+      hidden: (content) => !content.showLabels,
+    },
+    highLabel: {
+      label: {
+        en: "Max Label",
+        pt: "Legenda Máx",
+      },
+      type: "Text",
+      section: "settings",
+      defaultValue: "Very likely",
+      bindable: true,
+      hidden: (content) => !content.showLabels,
     },
 
     // ===========================================
-    // POSITION & BEHAVIOR
+    // 2. EMOJI SETTINGS
+    // ===========================================
+    emojiScale: {
+      label: {
+        en: "Scale",
+        pt: "Escala",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "5", label: { en: "5 emojis (0-4)", pt: "5 emojis (0-4)" } },
+          { value: "11", label: { en: "11 emojis (0-10)", pt: "11 emojis (0-10)" } },
+        ],
+      },
+      defaultValue: "5",
+      hidden: (content) => content.displayType !== "emojis",
+    },
+    emojiSet: {
+      label: {
+        en: "Style",
+        pt: "Estilo",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "faces", label: { en: "Faces (😩😟🤔🙂😁)", pt: "Faces (😩😟🤔🙂😁)" } },
+          { value: "thumbs", label: { en: "Thumbs (👎😐👍)", pt: "Polegares (👎😐👍)" } },
+          { value: "hearts", label: { en: "Hearts (💔🤍❤️)", pt: "Corações (💔🤍❤️)" } },
+        ],
+      },
+      defaultValue: "faces",
+      hidden: (content) => content.displayType !== "emojis",
+    },
+    emojiLayout: {
+      label: {
+        en: "Layout",
+        pt: "Layout",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "compact", label: { en: "Compact Card", pt: "Card Compacto" } },
+          { value: "default", label: { en: "Full Width", pt: "Largura Total" } },
+        ],
+      },
+      defaultValue: "compact",
+      hidden: (content) => content.displayType !== "emojis",
+    },
+    compactPosition: {
+      label: {
+        en: "Position",
+        pt: "Posição",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "bottom-left", label: { en: "Bottom Left", pt: "Inferior Esquerdo" } },
+          { value: "bottom-right", label: { en: "Bottom Right", pt: "Inferior Direito" } },
+        ],
+      },
+      defaultValue: "bottom-left",
+      hidden: (content) => content.displayType !== "emojis" || content.emojiLayout !== "compact",
+    },
+    compactWidth: {
+      label: {
+        en: "Width (px)",
+        pt: "Largura (px)",
+      },
+      type: "Number",
+      section: "settings",
+      defaultValue: 340,
+      hidden: (content) => content.displayType !== "emojis" || content.emojiLayout !== "compact",
+    },
+
+    // ===========================================
+    // 3. HEADER
+    // ===========================================
+    showConversationalHeader: {
+      label: {
+        en: "Friendly Header",
+        pt: "Header Amigável",
+      },
+      type: "OnOff",
+      section: "settings",
+      defaultValue: false,
+    },
+    headerEmoji: {
+      label: {
+        en: "Emoji",
+        pt: "Emoji",
+      },
+      type: "Text",
+      section: "settings",
+      defaultValue: "👋",
+      hidden: (content) => !content.showConversationalHeader,
+    },
+    headerText: {
+      label: {
+        en: "Text",
+        pt: "Texto",
+      },
+      type: "Text",
+      section: "settings",
+      defaultValue: "Hi there! Quick question:",
+      bindable: true,
+      hidden: (content) => !content.showConversationalHeader,
+    },
+
+    // ===========================================
+    // 4. POSITION & BEHAVIOR
     // ===========================================
     positionMode: {
       label: {
-        en: "Position Mode",
-        pt: "Modo de Posição",
+        en: "Display Mode",
+        pt: "Modo de Exibição",
       },
       type: "TextSelect",
       section: "settings",
@@ -85,8 +250,18 @@ export default {
     },
     showDelay: {
       label: {
-        en: "Show Delay (ms)",
-        pt: "Delay para Exibir (ms)",
+        en: "Delay (ms)",
+        pt: "Delay (ms)",
+      },
+      type: "Number",
+      section: "settings",
+      defaultValue: 0,
+      bindable: true,
+    },
+    autoCloseDelay: {
+      label: {
+        en: "Auto-close (ms)",
+        pt: "Auto-fechar (ms)",
       },
       type: "Number",
       section: "settings",
@@ -95,8 +270,8 @@ export default {
     },
     showCloseButton: {
       label: {
-        en: "Show Close Button",
-        pt: "Mostrar Botão Fechar",
+        en: "Close Button",
+        pt: "Botão Fechar",
       },
       type: "OnOff",
       section: "settings",
@@ -104,41 +279,48 @@ export default {
     },
     showBackButton: {
       label: {
-        en: "Show Back Button",
-        pt: "Mostrar Botão Voltar",
+        en: "Back Button",
+        pt: "Botão Voltar",
       },
       type: "OnOff",
       section: "settings",
       defaultValue: true,
     },
-    autoCloseDelay: {
-      label: {
-        en: "Auto Minimize After Submit (ms)",
-        pt: "Minimizar Após Enviar (ms)",
-      },
-      type: "Number",
-      section: "settings",
-      defaultValue: 0,
-      bindable: true,
-    },
 
     // ===========================================
-    // MINIMIZED BAR
+    // 5. MINIMIZED STATE
     // ===========================================
+    minimizedStyle: {
+      label: {
+        en: "Collapsed Style",
+        pt: "Estilo Recolhido",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "bar", label: { en: "Bar", pt: "Barra" } },
+          { value: "floatingIcon", label: { en: "Floating Icon", pt: "Ícone Flutuante" } },
+        ],
+      },
+      defaultValue: "bar",
+      hidden: (content) => content.positionMode !== "fixed",
+    },
     minimizedText: {
       label: {
-        en: "Minimized Text",
-        pt: "Texto Minimizado",
+        en: "Button Text",
+        pt: "Texto do Botão",
       },
       type: "Text",
       section: "settings",
       defaultValue: "Evaluate the platform",
       bindable: true,
+      hidden: (content) => content.minimizedStyle === "floatingIcon",
     },
     minimizedIcon: {
       label: {
-        en: "Minimized Icon",
-        pt: "Ícone Minimizado",
+        en: "Icon",
+        pt: "Ícone",
       },
       type: "TextSelect",
       section: "settings",
@@ -156,8 +338,8 @@ export default {
     },
     minimizedPosition: {
       label: {
-        en: "Minimized Position",
-        pt: "Posição Minimizado",
+        en: "Alignment",
+        pt: "Alinhamento",
       },
       type: "TextSelect",
       section: "settings",
@@ -169,11 +351,12 @@ export default {
         ],
       },
       defaultValue: "center",
+      hidden: (content) => content.minimizedStyle === "floatingIcon",
     },
     minimizedBackgroundColor: {
       label: {
-        en: "Minimized Background",
-        pt: "Fundo Minimizado",
+        en: "Background",
+        pt: "Fundo",
       },
       type: "Color",
       section: "settings",
@@ -182,44 +365,33 @@ export default {
     },
     minimizedTextColor: {
       label: {
-        en: "Minimized Text Color",
-        pt: "Cor Texto Minimizado",
+        en: "Text Color",
+        pt: "Cor do Texto",
       },
       type: "Color",
       section: "settings",
       defaultValue: "#333333",
       bindable: true,
+      hidden: (content) => content.minimizedStyle === "floatingIcon",
     },
     minimizedIconColor: {
       label: {
-        en: "Minimized Icon Color",
-        pt: "Cor Ícone Minimizado",
+        en: "Icon Color",
+        pt: "Cor do Ícone",
       },
       type: "Color",
       section: "settings",
       defaultValue: "#1976D2",
       bindable: true,
     },
-    minimizedStyle: {
-      label: {
-        en: "Minimized Style",
-        pt: "Estilo Minimizado",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "bar", label: { en: "Bar", pt: "Barra" } },
-          { value: "floatingIcon", label: { en: "Floating Icon", pt: "Ícone Flutuante" } },
-        ],
-      },
-      defaultValue: "bar",
-      hidden: (content) => content.positionMode !== 'fixed',
-    },
+
+    // ===========================================
+    // 6. FLOATING ICON
+    // ===========================================
     floatingIconHorizontal: {
       label: {
-        en: "Floating Icon Horizontal",
-        pt: "Ícone Flutuante Horizontal",
+        en: "Horizontal",
+        pt: "Horizontal",
       },
       type: "TextSelect",
       section: "settings",
@@ -233,8 +405,8 @@ export default {
     },
     floatingIconVertical: {
       label: {
-        en: "Floating Icon Vertical",
-        pt: "Ícone Flutuante Vertical",
+        en: "Vertical",
+        pt: "Vertical",
       },
       type: "TextSelect",
       section: "settings",
@@ -248,11 +420,11 @@ export default {
     },
 
     // ===========================================
-    // VISUAL STYLING
+    // 7. VISUAL STYLE
     // ===========================================
     backgroundColor: {
       label: {
-        en: "Background Color",
+        en: "Background",
         pt: "Cor de Fundo",
       },
       type: "Color",
@@ -263,17 +435,18 @@ export default {
     maxWidth: {
       label: {
         en: "Max Width (px)",
-        pt: "Largura Máxima (px)",
+        pt: "Largura Máx (px)",
       },
       type: "Number",
       section: "settings",
       defaultValue: 1080,
       bindable: true,
+      hidden: (content) => content.displayType === "emojis" && content.emojiLayout === "compact",
     },
     primaryColor: {
       label: {
-        en: "Primary Color",
-        pt: "Cor Primária",
+        en: "Accent Color",
+        pt: "Cor de Destaque",
       },
       type: "Color",
       section: "settings",
@@ -289,11 +462,12 @@ export default {
       section: "settings",
       defaultValue: "#FFD700",
       bindable: true,
+      hidden: (content) => content.displayType !== "stars",
     },
     thankYouColor: {
       label: {
-        en: "Thank You Icon Color",
-        pt: "Cor Ícone Agradecimento",
+        en: "Icon Color",
+        pt: "Cor do Ícone",
       },
       type: "Color",
       section: "settings",
@@ -302,229 +476,12 @@ export default {
     },
 
     // ===========================================
-    // RATING STEP (always shown)
-    // ===========================================
-    question: {
-      label: {
-        en: "Rating Question",
-        pt: "Pergunta Avaliação",
-      },
-      type: "Text",
-      section: "settings",
-      defaultValue: "How likely are you to recommend us?",
-      bindable: true,
-    },
-    displayType: {
-      label: {
-        en: "Display Type",
-        pt: "Tipo de Exibição",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "numbers", label: { en: "Numbers", pt: "Números" } },
-          { value: "stars", label: { en: "Stars", pt: "Estrelas" } },
-          { value: "emojis", label: { en: "Emojis", pt: "Emojis" } },
-        ],
-      },
-      defaultValue: "numbers",
-    },
-
-    // ===========================================
-    // EMOJI SETTINGS (only when displayType === 'emojis')
-    // ===========================================
-    emojiScale: {
-      label: {
-        en: "Emoji Scale",
-        pt: "Escala de Emojis",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "5", label: { en: "5 emojis (0-4)", pt: "5 emojis (0-4)" } },
-          { value: "11", label: { en: "11 emojis (0-10)", pt: "11 emojis (0-10)" } },
-        ],
-      },
-      defaultValue: "5",
-      hidden: (content) => content.displayType !== "emojis",
-    },
-    emojiSet: {
-      label: {
-        en: "Emoji Set",
-        pt: "Set de Emojis",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "faces", label: { en: "Faces (😩😟🤔🙂😁)", pt: "Faces (😩😟🤔🙂😁)" } },
-          { value: "thumbs", label: { en: "Thumbs (👎😐👍)", pt: "Polegares (👎😐👍)" } },
-          { value: "hearts", label: { en: "Hearts (💔🤍❤️)", pt: "Corações (💔🤍❤️)" } },
-        ],
-      },
-      defaultValue: "faces",
-      hidden: (content) => content.displayType !== "emojis",
-    },
-    emojiLayout: {
-      label: {
-        en: "Emoji Layout",
-        pt: "Layout dos Emojis",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "default", label: { en: "Full Width", pt: "Largura Total" } },
-          { value: "compact", label: { en: "Compact Card", pt: "Card Compacto" } },
-        ],
-      },
-      defaultValue: "default",
-      hidden: (content) => content.displayType !== "emojis",
-    },
-    compactPosition: {
-      label: {
-        en: "Compact Card Position",
-        pt: "Posição do Card Compacto",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "bottom-left", label: { en: "Bottom Left", pt: "Inferior Esquerdo" } },
-          { value: "bottom-right", label: { en: "Bottom Right", pt: "Inferior Direito" } },
-        ],
-      },
-      defaultValue: "bottom-left",
-      hidden: (content) => content.displayType !== "emojis" || content.emojiLayout !== "compact",
-    },
-    compactWidth: {
-      label: {
-        en: "Compact Card Width (px)",
-        pt: "Largura do Card Compacto (px)",
-      },
-      type: "Number",
-      section: "settings",
-      defaultValue: 340,
-      hidden: (content) => content.displayType !== "emojis" || content.emojiLayout !== "compact",
-    },
-
-    // ===========================================
-    // CONVERSATIONAL HEADER
-    // ===========================================
-    showConversationalHeader: {
-      label: {
-        en: "Conversational Header",
-        pt: "Header Conversacional",
-      },
-      type: "OnOff",
-      section: "settings",
-      defaultValue: false,
-    },
-    headerEmoji: {
-      label: {
-        en: "Header Emoji",
-        pt: "Emoji do Header",
-      },
-      type: "Text",
-      section: "settings",
-      defaultValue: "👋",
-      hidden: (content) => !content.showConversationalHeader,
-    },
-    headerText: {
-      label: {
-        en: "Header Text",
-        pt: "Texto do Header",
-      },
-      type: "Text",
-      section: "settings",
-      defaultValue: "Hi there! Quick question:",
-      bindable: true,
-      hidden: (content) => !content.showConversationalHeader,
-    },
-    colorScheme: {
-      label: {
-        en: "Color Scheme (Numbers)",
-        pt: "Esquema de Cores (Números)",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "colorful", label: { en: "Colorful", pt: "Colorido" } },
-          { value: "neutral", label: { en: "Neutral", pt: "Neutro" } },
-        ],
-      },
-      defaultValue: "colorful",
-    },
-    minValue: {
-      label: {
-        en: "Min Value",
-        pt: "Valor Mínimo",
-      },
-      type: "Number",
-      section: "settings",
-      defaultValue: 0,
-      bindable: true,
-    },
-    maxValue: {
-      label: {
-        en: "Max Value",
-        pt: "Valor Máximo",
-      },
-      type: "Number",
-      section: "settings",
-      defaultValue: 10,
-      bindable: true,
-    },
-    buttonSize: {
-      label: {
-        en: "Button/Star Size",
-        pt: "Tamanho Botão/Estrela",
-      },
-      type: "Number",
-      section: "settings",
-      defaultValue: 40,
-      bindable: true,
-    },
-    showLabels: {
-      label: {
-        en: "Show Labels",
-        pt: "Mostrar Labels",
-      },
-      type: "OnOff",
-      section: "settings",
-      defaultValue: true,
-    },
-    lowLabel: {
-      label: {
-        en: "Low Label",
-        pt: "Label Baixo",
-      },
-      type: "Text",
-      section: "settings",
-      defaultValue: "Not likely",
-      bindable: true,
-    },
-    highLabel: {
-      label: {
-        en: "High Label",
-        pt: "Label Alto",
-      },
-      type: "Text",
-      section: "settings",
-      defaultValue: "Very likely",
-      bindable: true,
-    },
-
-    // ===========================================
-    // BUTTON TEXTS
+    // 8. BUTTON TEXTS
     // ===========================================
     submitButtonText: {
       label: {
-        en: "Submit Button Text",
-        pt: "Texto Botão Enviar",
+        en: "Submit",
+        pt: "Enviar",
       },
       type: "Text",
       section: "settings",
@@ -533,8 +490,8 @@ export default {
     },
     nextButtonText: {
       label: {
-        en: "Next Button Text",
-        pt: "Texto Botão Próximo",
+        en: "Next",
+        pt: "Próximo",
       },
       type: "Text",
       section: "settings",
@@ -543,8 +500,8 @@ export default {
     },
     backButtonText: {
       label: {
-        en: "Back Button Text",
-        pt: "Texto Botão Voltar",
+        en: "Back",
+        pt: "Voltar",
       },
       type: "Text",
       section: "settings",
@@ -553,12 +510,12 @@ export default {
     },
 
     // ===========================================
-    // THANK YOU STEP
+    // 9. THANK YOU STEP
     // ===========================================
     thankYouTitle: {
       label: {
-        en: "Thank You Title",
-        pt: "Título Agradecimento",
+        en: "Title",
+        pt: "Título",
       },
       type: "Text",
       section: "settings",
@@ -567,13 +524,67 @@ export default {
     },
     thankYouMessage: {
       label: {
-        en: "Thank You Message",
-        pt: "Mensagem Agradecimento",
+        en: "Message",
+        pt: "Mensagem",
       },
       type: "Text",
       section: "settings",
       defaultValue: "Your feedback helps us improve.",
       bindable: true,
+    },
+
+    // ===========================================
+    // 10. DATA SOURCE
+    // ===========================================
+    questions: {
+      label: {
+        en: "Questions (JSON/DB)",
+        pt: "Perguntas (JSON/DB)",
+      },
+      type: "Array",
+      section: "settings",
+      bindable: true,
+      defaultValue: [],
+      options: {
+        item: {
+          type: "Object",
+          defaultValue: { type: "shortQuestion", question: "", options: [] },
+        },
+      },
+    },
+
+    // ===========================================
+    // 11. VISIBILITY CONTROL
+    // ===========================================
+    isOpen: {
+      label: {
+        en: "Visible",
+        pt: "Visível",
+      },
+      type: "OnOff",
+      section: "settings",
+      defaultValue: true,
+      bindable: true,
+    },
+    previewMode: {
+      label: {
+        en: "Preview Mode",
+        pt: "Modo Preview",
+      },
+      type: "OnOff",
+      section: "settings",
+      defaultValue: false,
+    },
+    previewStep: {
+      label: {
+        en: "Step",
+        pt: "Step",
+      },
+      type: "Number",
+      section: "settings",
+      defaultValue: 0,
+      bindable: true,
+      hidden: (content) => !content.previewMode,
     },
   },
   triggerEvents: [
