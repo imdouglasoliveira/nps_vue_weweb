@@ -26,6 +26,21 @@ export default {
       },
       defaultValue: "numbers",
     },
+    layout: {
+      label: {
+        en: "Layout",
+        pt: "Layout",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "default", label: { en: "Full Width", pt: "Largura Total" } },
+          { value: "compact", label: { en: "Compact Card", pt: "Card Compacto" } },
+        ],
+      },
+      defaultValue: "default",
+    },
     question: {
       label: {
         en: "Question",
@@ -153,26 +168,14 @@ export default {
       defaultValue: "faces",
       hidden: (content) => content.displayType !== "emojis",
     },
-    emojiLayout: {
-      label: {
-        en: "Layout",
-        pt: "Layout",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "compact", label: { en: "Compact Card", pt: "Card Compacto" } },
-          { value: "default", label: { en: "Full Width", pt: "Largura Total" } },
-        ],
-      },
-      defaultValue: "compact",
-      hidden: (content) => content.displayType !== "emojis",
-    },
+
+    // ===========================================
+    // 3. COMPACT CARD SETTINGS
+    // ===========================================
     compactPosition: {
       label: {
-        en: "Position",
-        pt: "Posição",
+        en: "Card Position",
+        pt: "Posição do Card",
       },
       type: "TextSelect",
       section: "settings",
@@ -183,21 +186,21 @@ export default {
         ],
       },
       defaultValue: "bottom-left",
-      hidden: (content) => content.displayType !== "emojis" || content.emojiLayout !== "compact",
+      hidden: (content) => content.layout !== "compact",
     },
     compactWidth: {
       label: {
-        en: "Width (px)",
-        pt: "Largura (px)",
+        en: "Card Width (px)",
+        pt: "Largura do Card (px)",
       },
       type: "Number",
       section: "settings",
       defaultValue: 340,
-      hidden: (content) => content.displayType !== "emojis" || content.emojiLayout !== "compact",
+      hidden: (content) => content.layout !== "compact",
     },
 
     // ===========================================
-    // 3. HEADER
+    // 4. HEADER
     // ===========================================
     showConversationalHeader: {
       label: {
@@ -231,7 +234,7 @@ export default {
     },
 
     // ===========================================
-    // 4. POSITION & BEHAVIOR
+    // 5. POSITION & BEHAVIOR
     // ===========================================
     positionMode: {
       label: {
@@ -288,7 +291,7 @@ export default {
     },
 
     // ===========================================
-    // 5. MINIMIZED STATE
+    // 6. MINIMIZED STATE
     // ===========================================
     minimizedStyle: {
       label: {
@@ -386,7 +389,7 @@ export default {
     },
 
     // ===========================================
-    // 6. FLOATING ICON
+    // 7. FLOATING ICON
     // ===========================================
     floatingIconHorizontal: {
       label: {
@@ -420,7 +423,7 @@ export default {
     },
 
     // ===========================================
-    // 7. VISUAL STYLE
+    // 8. VISUAL STYLE
     // ===========================================
     backgroundColor: {
       label: {
@@ -441,7 +444,7 @@ export default {
       section: "settings",
       defaultValue: 1080,
       bindable: true,
-      hidden: (content) => content.displayType === "emojis" && content.emojiLayout === "compact",
+      hidden: (content) => content.layout === "compact",
     },
     primaryColor: {
       label: {
@@ -476,7 +479,7 @@ export default {
     },
 
     // ===========================================
-    // 8. BUTTON TEXTS
+    // 9. BUTTON TEXTS
     // ===========================================
     submitButtonText: {
       label: {
@@ -510,7 +513,7 @@ export default {
     },
 
     // ===========================================
-    // 9. THANK YOU STEP
+    // 10. THANK YOU STEP
     // ===========================================
     thankYouTitle: {
       label: {
@@ -534,7 +537,7 @@ export default {
     },
 
     // ===========================================
-    // 10. DATA SOURCE
+    // 11. DATA SOURCE
     // ===========================================
     questions: {
       label: {
@@ -554,7 +557,7 @@ export default {
     },
 
     // ===========================================
-    // 11. VISIBILITY CONTROL
+    // 12. VISIBILITY CONTROL
     // ===========================================
     isOpen: {
       label: {

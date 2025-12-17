@@ -343,10 +343,11 @@ export default {
     },
     // Compact mode properties
     isCompactMode() {
-      return this.displayType === 'emojis' && this.content.emojiLayout === 'compact';
+      return this.content.layout === 'compact';
     },
     shouldAutoSubmitEmoji() {
-      return this.isCompactMode && !this.hasMoreSteps;
+      // Auto-submit only for emojis in compact mode without additional questions
+      return this.isCompactMode && this.displayType === 'emojis' && !this.hasMoreSteps;
     },
     compactPosition() {
       return this.content.compactPosition || 'bottom-left';

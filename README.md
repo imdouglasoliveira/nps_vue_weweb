@@ -45,6 +45,7 @@ nps_vue/
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `displayType` | TextSelect | `numbers` | Rating style: `numbers`, `stars`, or `emojis` |
+| `layout` | TextSelect | `default` | Layout: `default` (full-width) or `compact` (floating card) |
 | `question` | Text | `How likely are you to recommend us?` | Main question |
 | `colorScheme` | TextSelect | `colorful` | Color mode: `colorful` or `neutral` (numbers only) |
 | `minValue` | Number | `0` | Scale min (numbers/stars only) |
@@ -60,15 +61,6 @@ nps_vue/
 |----------|------|---------|-------------|
 | `emojiScale` | TextSelect | `5` | Scale: `5` (0-4) or `11` (0-10) emojis |
 | `emojiSet` | TextSelect | `faces` | Style: `faces`, `thumbs`, or `hearts` |
-| `emojiLayout` | TextSelect | `compact` | Layout: `compact` (floating card) or `default` (full-width) |
-| `compactPosition` | TextSelect | `bottom-left` | Position: `bottom-left` or `bottom-right` |
-| `compactWidth` | Number | `340` | Width in pixels |
-
-**Compact Mode Features:**
-- Floating card with customizable width and position
-- Auto-submit on emoji click (no Submit button needed when no additional questions)
-- Left-aligned layout with clean design
-- Ideal for quick feedback without full-width footers
 
 **Available Emoji Sets:**
 
@@ -77,6 +69,20 @@ nps_vue/
 | **Faces** | 😩 😟 🤔 🙂 😁 | 😡 😠 😩 😟 😕 😐 🙂 😊 😄 😁 🤩 |
 | **Thumbs** | 👎 👎 😐 👍 👍 | 👎 👎 👎 👎 👎 😐 👍 👍 👍 👍 👍 |
 | **Hearts** | 💔 🖤 🤍 💛 ❤️ | 💔 💔 🖤 🖤 🤍 🤍 💛 💛 🧡 ❤️ ❤️‍🔥 |
+
+### Compact Card Settings (when layout = compact)
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `compactPosition` | TextSelect | `bottom-left` | Position: `bottom-left` or `bottom-right` |
+| `compactWidth` | Number | `340` | Card width in pixels |
+
+**Compact Mode Features:**
+- Works with all rating types: Numbers, Stars, and Emojis
+- Floating card with customizable width and position
+- Auto-submit on emoji click (emojis only, when no additional questions)
+- Responsive layout that adapts to different screen sizes
+- Ideal for quick feedback without full-width footers
 
 ### Header
 
@@ -228,9 +234,15 @@ The `ratingSelected` event fires **immediately** when a user clicks on a rating,
 ### Emoji Rating (Compact Card)
 
 1. Set `displayType` to `emojis`
-2. Choose `emojiScale`: `5` (simple) or `11` (detailed)
-3. Choose `emojiSet`: `faces`, `thumbs`, or `hearts`
-4. `emojiLayout` defaults to `compact` (floating card)
+2. Set `layout` to `compact`
+3. Choose `emojiScale`: `5` (simple) or `11` (detailed)
+4. Choose `emojiSet`: `faces`, `thumbs`, or `hearts`
+
+### Compact Card Mode (Any Rating Type)
+
+1. Set `layout` to `compact`
+2. Configure `compactPosition` and `compactWidth`
+3. Works with Numbers, Stars, or Emojis
 
 ### Multi-step with Database Questions
 

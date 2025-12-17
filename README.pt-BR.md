@@ -45,6 +45,7 @@ nps_vue/
 | Propriedade | Tipo | Padrão | Descrição |
 |-------------|------|--------|-----------|
 | `displayType` | TextSelect | `numbers` | Estilo: `numbers`, `stars` ou `emojis` |
+| `layout` | TextSelect | `default` | Layout: `default` (largura total) ou `compact` (card flutuante) |
 | `question` | Text | `How likely are you to recommend us?` | Pergunta principal |
 | `colorScheme` | TextSelect | `colorful` | Modo de cores: `colorful` ou `neutral` (apenas números) |
 | `minValue` | Number | `0` | Escala mín (números/estrelas) |
@@ -60,15 +61,6 @@ nps_vue/
 |-------------|------|--------|-----------|
 | `emojiScale` | TextSelect | `5` | Escala: `5` (0-4) ou `11` (0-10) emojis |
 | `emojiSet` | TextSelect | `faces` | Estilo: `faces`, `thumbs` ou `hearts` |
-| `emojiLayout` | TextSelect | `compact` | Layout: `compact` (card flutuante) ou `default` (largura total) |
-| `compactPosition` | TextSelect | `bottom-left` | Posição: `bottom-left` ou `bottom-right` |
-| `compactWidth` | Number | `340` | Largura em pixels |
-
-**Funcionalidades do Modo Compacto:**
-- Card flutuante com largura e posição customizáveis
-- Auto-submit ao clicar no emoji (sem botão Submit quando não há perguntas adicionais)
-- Layout alinhado à esquerda com design limpo
-- Ideal para feedback rápido sem footers full-width
 
 **Sets de Emojis Disponíveis:**
 
@@ -77,6 +69,20 @@ nps_vue/
 | **Faces** | 😩 😟 🤔 🙂 😁 | 😡 😠 😩 😟 😕 😐 🙂 😊 😄 😁 🤩 |
 | **Thumbs** | 👎 👎 😐 👍 👍 | 👎 👎 👎 👎 👎 😐 👍 👍 👍 👍 👍 |
 | **Hearts** | 💔 🖤 🤍 💛 ❤️ | 💔 💔 🖤 🖤 🤍 🤍 💛 💛 🧡 ❤️ ❤️‍🔥 |
+
+### Configurações do Card Compacto (quando layout = compact)
+
+| Propriedade | Tipo | Padrão | Descrição |
+|-------------|------|--------|-----------|
+| `compactPosition` | TextSelect | `bottom-left` | Posição: `bottom-left` ou `bottom-right` |
+| `compactWidth` | Number | `340` | Largura do card em pixels |
+
+**Funcionalidades do Modo Compacto:**
+- Funciona com todos os tipos de avaliação: Números, Estrelas e Emojis
+- Card flutuante com largura e posição customizáveis
+- Auto-submit ao clicar no emoji (apenas emojis, quando não há perguntas adicionais)
+- Layout responsivo que se adapta a diferentes tamanhos de tela
+- Ideal para feedback rápido sem footers full-width
 
 ### Header
 
@@ -228,9 +234,15 @@ O evento `ratingSelected` dispara **imediatamente** quando o usuário clica em u
 ### Avaliação com Emojis (Card Compacto)
 
 1. Configure `displayType` para `emojis`
-2. Escolha `emojiScale`: `5` (simples) ou `11` (detalhada)
-3. Escolha `emojiSet`: `faces`, `thumbs` ou `hearts`
-4. `emojiLayout` já vem como `compact` por padrão (card flutuante)
+2. Configure `layout` para `compact`
+3. Escolha `emojiScale`: `5` (simples) ou `11` (detalhada)
+4. Escolha `emojiSet`: `faces`, `thumbs` ou `hearts`
+
+### Modo Card Compacto (Qualquer Tipo de Avaliação)
+
+1. Configure `layout` para `compact`
+2. Configure `compactPosition` e `compactWidth`
+3. Funciona com Números, Estrelas ou Emojis
 
 ### Multi-step com Perguntas do Banco de Dados
 
