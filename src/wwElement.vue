@@ -39,7 +39,7 @@
     </div>
 
     <!-- Full NPS Panel -->
-    <div class="nps-host" :style="hostStyle" v-show="isVisible && !isMinimized && isControlledOpen">
+    <div class="nps-host" :class="{ 'nps-compact': isCompactMode }" :style="hostStyle" v-show="isVisible && !isMinimized && isControlledOpen">
       <!-- Close Button -->
       <button
         v-if="content.showCloseButton !== false"
@@ -144,7 +144,7 @@
             {{ content.nextButtonText || 'Next' }}
           </button>
           <button
-            v-else
+            v-else-if="!shouldAutoSubmitEmoji"
             class="nps-submit"
             :style="submitBtnStyle"
             :disabled="selectedValue === null"
@@ -341,6 +341,19 @@ export default {
     headerText() {
       return this.content.headerText || 'Hi there! Quick question:';
     },
+    // Compact mode properties
+    isCompactMode() {
+      return this.displayType === 'emojis' && this.content.emojiLayout === 'compact';
+    },
+    shouldAutoSubmitEmoji() {
+      return this.isCompactMode && !this.hasMoreSteps;
+    },
+    compactPosition() {
+      return this.content.compactPosition || 'bottom-left';
+    },
+    compactWidth() {
+      return this.content.compactWidth || 340;
+    },
     minValue() {
       return this.content.minValue ?? 0;
     },
@@ -402,13 +415,34 @@ export default {
       const bgColor = this.content.backgroundColor || '#ffffff';
       const style = {
         backgroundColor: bgColor,
-        width: '100%',
       };
-      if (this.positionMode === 'fixed') {
-        style.boxShadow = '0 -4px 20px rgba(0, 0, 0, 0.15)';
-        style.borderTopLeftRadius = '16px';
-        style.borderTopRightRadius = '16px';
+
+      if (this.isCompactMode) {
+        // Compact mode: floating card
+        style.width = this.compactWidth + 'px';
+        style.maxWidth = this.compactWidth + 'px';
+        style.borderRadius = '12px';
+        style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+        style.position = 'fixed';
+        style.zIndex = '1000';
+
+        if (this.compactPosition === 'bottom-left') {
+          style.bottom = '20px';
+          style.left = '20px';
+        } else {
+          style.bottom = '20px';
+          style.right = '20px';
+        }
+      } else {
+        // Default mode
+        style.width = '100%';
+        if (this.positionMode === 'fixed') {
+          style.boxShadow = '0 -4px 20px rgba(0, 0, 0, 0.15)';
+          style.borderTopLeftRadius = '16px';
+          style.borderTopRightRadius = '16px';
+        }
       }
+
       return style;
     },
     minimizedStyle() {
@@ -654,6 +688,11 @@ export default {
         name: 'ratingSelected',
         event: { rating: n },
       });
+
+      // Auto-submit in compact mode without additional questions
+      if (this.shouldAutoSubmitEmoji) {
+        this.handleSubmit();
+      }
     },
     handleNextStep() {
       if (this.currentStepIndex < this.totalSteps - 1) {
@@ -842,6 +881,54 @@ export default {
   justify-content: center;
 }
 
+/* Compact Mode (Terminus-style) */
+.nps-host.nps-compact {
+  display: block;
+}
+
+.nps-host.nps-compact .nps-container {
+  padding: 16px !important;
+  max-width: 100% !important;
+}
+
+.nps-host.nps-compact .nps-question {
+  font-size: 15px;
+  margin-bottom: 12px;
+  padding: 0;
+  text-align: left;
+}
+
+.nps-host.nps-compact .nps-conversational-header {
+  justify-content: flex-start;
+  padding-bottom: 8px;
+  font-size: 14px;
+}
+
+.nps-host.nps-compact .nps-labels {
+  display: none;
+}
+
+.nps-host.nps-compact .nps-step {
+  align-items: flex-start;
+}
+
+.nps-host.nps-compact .nps-emoji-scale {
+  justify-content: flex-start;
+  margin-bottom: 0;
+}
+
+.nps-host.nps-compact .emoji-button {
+  font-size: 32px;
+  padding: 4px;
+}
+
+.nps-host.nps-compact .nps-close {
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
 .nps-close {
   position: absolute;
   top: 12px;
@@ -1002,10 +1089,9 @@ export default {
 
 .emoji-container {
   display: inline-flex;
-  gap: 4px;
-  background: rgba(0, 0, 0, 0.08);
-  padding: 10px 14px;
-  border-radius: 12px;
+  gap: 8px;
+  background: transparent;
+  padding: 10px 0;
 }
 
 .emoji-button {

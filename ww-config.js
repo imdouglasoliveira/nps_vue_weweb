@@ -367,6 +367,48 @@ export default {
       defaultValue: "faces",
       hidden: (content) => content.displayType !== "emojis",
     },
+    emojiLayout: {
+      label: {
+        en: "Emoji Layout",
+        pt: "Layout dos Emojis",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "default", label: { en: "Full Width", pt: "Largura Total" } },
+          { value: "compact", label: { en: "Compact Card (Terminus)", pt: "Card Compacto (Terminus)" } },
+        ],
+      },
+      defaultValue: "default",
+      hidden: (content) => content.displayType !== "emojis",
+    },
+    compactPosition: {
+      label: {
+        en: "Compact Card Position",
+        pt: "Posição do Card Compacto",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "bottom-left", label: { en: "Bottom Left", pt: "Inferior Esquerdo" } },
+          { value: "bottom-right", label: { en: "Bottom Right", pt: "Inferior Direito" } },
+        ],
+      },
+      defaultValue: "bottom-left",
+      hidden: (content) => content.displayType !== "emojis" || content.emojiLayout !== "compact",
+    },
+    compactWidth: {
+      label: {
+        en: "Compact Card Width (px)",
+        pt: "Largura do Card Compacto (px)",
+      },
+      type: "Number",
+      section: "settings",
+      defaultValue: 340,
+      hidden: (content) => content.displayType !== "emojis" || content.emojiLayout !== "compact",
+    },
 
     // ===========================================
     // CONVERSATIONAL HEADER

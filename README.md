@@ -143,6 +143,15 @@ nps_vue/
 |----------|------|---------|-------------|
 | `emojiScale` | TextSelect | `5` | Scale: `5` (0-4) or `11` (0-10) emojis |
 | `emojiSet` | TextSelect | `faces` | Set: `faces`, `thumbs`, or `hearts` |
+| `emojiLayout` | TextSelect | `default` | Layout: `default` (full-width) or `compact` (Terminus-style floating card) |
+| `compactPosition` | TextSelect | `bottom-left` | Compact card position: `bottom-left` or `bottom-right` |
+| `compactWidth` | Number | `340` | Compact card width in pixels |
+
+**Compact Mode Features:**
+- Floating card with customizable width and position
+- Auto-submit on emoji click (no Submit button needed when no additional questions)
+- Left-aligned layout with clean design (Terminus-style)
+- Ideal for quick feedback without full-width footers
 
 **Available Emoji Sets:**
 
