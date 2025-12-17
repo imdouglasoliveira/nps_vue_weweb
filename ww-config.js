@@ -377,7 +377,7 @@ export default {
       options: {
         options: [
           { value: "default", label: { en: "Full Width", pt: "Largura Total" } },
-          { value: "compact", label: { en: "Compact Card (Terminus)", pt: "Card Compacto (Terminus)" } },
+          { value: "compact", label: { en: "Compact Card", pt: "Card Compacto" } },
         ],
       },
       defaultValue: "default",

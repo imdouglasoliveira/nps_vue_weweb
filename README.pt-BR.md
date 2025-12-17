@@ -143,14 +143,14 @@ nps_vue/
 |-------------|------|--------|-----------|
 | `emojiScale` | TextSelect | `5` | Escala: `5` (0-4) ou `11` (0-10) emojis |
 | `emojiSet` | TextSelect | `faces` | Set: `faces`, `thumbs` ou `hearts` |
-| `emojiLayout` | TextSelect | `default` | Layout: `default` (largura total) ou `compact` (card flutuante estilo Terminus) |
+| `emojiLayout` | TextSelect | `default` | Layout: `default` (largura total) ou `compact` (card flutuante) |
 | `compactPosition` | TextSelect | `bottom-left` | Posição do card compacto: `bottom-left` ou `bottom-right` |
 | `compactWidth` | Number | `340` | Largura do card compacto em pixels |
 
 **Funcionalidades do Modo Compacto:**
 - Card flutuante com largura e posição customizáveis
 - Auto-submit ao clicar no emoji (sem botão Submit quando não há perguntas adicionais)
-- Layout alinhado à esquerda com design limpo (estilo Terminus)
+- Layout alinhado à esquerda com design limpo
 - Ideal para feedback rápido sem footers full-width
 
 **Sets de Emojis Disponíveis:**
@@ -241,7 +241,7 @@ O evento `submit` dispara apenas quando o usuário completa todo o fluxo.
 2. Configure `minValue` para `1`
 3. Configure `maxValue` para `5`
 
-### Avaliação com Emojis (estilo Terminus)
+### Avaliação com Emojis
 
 1. Configure `displayType` para `emojis`
 2. Escolha `emojiScale`: `5` (simples) ou `11` (detalhada)

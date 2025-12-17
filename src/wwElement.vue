@@ -881,7 +881,7 @@ export default {
   justify-content: center;
 }
 
-/* Compact Mode (Terminus-style) */
+/* Compact Mode */
 .nps-host.nps-compact {
   display: block;
 }
