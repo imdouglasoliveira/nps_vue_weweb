@@ -917,9 +917,51 @@ export default {
   margin-bottom: 0;
 }
 
+.nps-host.nps-compact .emoji-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 100%;
+}
+
 .nps-host.nps-compact .emoji-button {
-  font-size: 32px;
+  font-size: 26px;
   padding: 4px;
+  min-width: 36px;
+  text-align: center;
+}
+
+/* Compact Mode - Numbers */
+.nps-host.nps-compact .nps-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+}
+
+.nps-host.nps-compact .nps-btn {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 11px;
+  border-radius: 6px;
+}
+
+/* Compact Mode - Stars */
+.nps-host.nps-compact .nps-stars {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+}
+
+.nps-host.nps-compact .nps-star {
+  padding: 2px;
+}
+
+.nps-host.nps-compact .nps-star svg {
+  width: 28px;
+  height: 28px;
 }
 
 .nps-host.nps-compact .nps-close {
@@ -1290,6 +1332,29 @@ export default {
   .minimized-text {
     font-size: 13px;
   }
+
+  /* Compact mode adjustments for very small screens */
+  .nps-host.nps-compact {
+    width: calc(100vw - 40px) !important;
+    max-width: 320px !important;
+  }
+
+  .nps-host.nps-compact .emoji-button {
+    font-size: 24px;
+    padding: 3px;
+    min-width: 32px;
+  }
+
+  .nps-host.nps-compact .nps-btn {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 10px;
+  }
+
+  .nps-host.nps-compact .nps-star svg {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
@@ -1301,6 +1366,26 @@ export default {
     width: 36px !important;
     height: 36px !important;
     font-size: 13px;
+  }
+
+  /* Tablet compact mode */
+  .nps-host.nps-compact {
+    max-width: 380px !important;
+  }
+
+  .nps-host.nps-compact .emoji-button {
+    font-size: 28px;
+  }
+
+  .nps-host.nps-compact .nps-btn {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 12px;
+  }
+
+  .nps-host.nps-compact .nps-star svg {
+    width: 30px;
+    height: 30px;
   }
 }
 </style>
