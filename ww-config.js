@@ -325,9 +325,81 @@ export default {
         options: [
           { value: "numbers", label: { en: "Numbers", pt: "Números" } },
           { value: "stars", label: { en: "Stars", pt: "Estrelas" } },
+          { value: "emojis", label: { en: "Emojis", pt: "Emojis" } },
         ],
       },
       defaultValue: "numbers",
+    },
+
+    // ===========================================
+    // EMOJI SETTINGS (only when displayType === 'emojis')
+    // ===========================================
+    emojiScale: {
+      label: {
+        en: "Emoji Scale",
+        pt: "Escala de Emojis",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "5", label: { en: "5 emojis (0-4)", pt: "5 emojis (0-4)" } },
+          { value: "11", label: { en: "11 emojis (0-10)", pt: "11 emojis (0-10)" } },
+        ],
+      },
+      defaultValue: "5",
+      hidden: (content) => content.displayType !== "emojis",
+    },
+    emojiSet: {
+      label: {
+        en: "Emoji Set",
+        pt: "Set de Emojis",
+      },
+      type: "TextSelect",
+      section: "settings",
+      options: {
+        options: [
+          { value: "faces", label: { en: "Faces (😩😟🤔🙂😁)", pt: "Faces (😩😟🤔🙂😁)" } },
+          { value: "thumbs", label: { en: "Thumbs (👎😐👍)", pt: "Polegares (👎😐👍)" } },
+          { value: "hearts", label: { en: "Hearts (💔🤍❤️)", pt: "Corações (💔🤍❤️)" } },
+        ],
+      },
+      defaultValue: "faces",
+      hidden: (content) => content.displayType !== "emojis",
+    },
+
+    // ===========================================
+    // CONVERSATIONAL HEADER
+    // ===========================================
+    showConversationalHeader: {
+      label: {
+        en: "Conversational Header",
+        pt: "Header Conversacional",
+      },
+      type: "OnOff",
+      section: "settings",
+      defaultValue: false,
+    },
+    headerEmoji: {
+      label: {
+        en: "Header Emoji",
+        pt: "Emoji do Header",
+      },
+      type: "Text",
+      section: "settings",
+      defaultValue: "👋",
+      hidden: (content) => !content.showConversationalHeader,
+    },
+    headerText: {
+      label: {
+        en: "Header Text",
+        pt: "Texto do Header",
+      },
+      type: "Text",
+      section: "settings",
+      defaultValue: "Hi there! Quick question:",
+      bindable: true,
+      hidden: (content) => !content.showConversationalHeader,
     },
     colorScheme: {
       label: {

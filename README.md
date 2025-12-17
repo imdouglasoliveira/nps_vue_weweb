@@ -7,7 +7,9 @@ Custom Net Promoter Score (NPS) component built with Vue.js for integration with
 
 ## Features
 
-- **Display Types**: Numbers (0-10, 1-5, etc.) or Stars
+- **Display Types**: Numbers (0-10, 1-5, etc.), Stars, or Emojis
+- **Emoji Sets**: Pre-defined sets (Faces, Thumbs, Hearts) with 5 or 11 scale options
+- **Conversational Header**: Optional friendly header with emoji (👋 Hi there! Quick question:)
 - **Color Schemes**: Colorful (gradient red→yellow→green) or Neutral (single color)
 - **Configurable Scale**: Set min and max values
 - **Dynamic Questions**: Bind additional questions from database/JSON
@@ -126,14 +128,37 @@ nps_vue/
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `question` | Text | `How likely are you to recommend us?` | Rating question |
-| `displayType` | TextSelect | `numbers` | Display: `numbers` or `stars` |
-| `colorScheme` | TextSelect | `colorful` | Scheme: `colorful` or `neutral` |
-| `minValue` | Number | `0` | Minimum scale value |
-| `maxValue` | Number | `10` | Maximum scale value |
+| `displayType` | TextSelect | `numbers` | Display: `numbers`, `stars`, or `emojis` |
+| `colorScheme` | TextSelect | `colorful` | Scheme: `colorful` or `neutral` (for numbers/stars) |
+| `minValue` | Number | `0` | Minimum scale value (for numbers/stars) |
+| `maxValue` | Number | `10` | Maximum scale value (for numbers/stars) |
 | `buttonSize` | Number | `40` | Button/star size in pixels |
 | `showLabels` | OnOff | `true` | Show low/high labels |
 | `lowLabel` | Text | `Not likely` | Low score label |
 | `highLabel` | Text | `Very likely` | High score label |
+
+### Emoji Settings (when displayType = emojis)
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `emojiScale` | TextSelect | `5` | Scale: `5` (0-4) or `11` (0-10) emojis |
+| `emojiSet` | TextSelect | `faces` | Set: `faces`, `thumbs`, or `hearts` |
+
+**Available Emoji Sets:**
+
+| Set | 5-Scale | 11-Scale |
+|-----|---------|----------|
+| **Faces** | 😩 😟 🤔 🙂 😁 | 😡 😠 😩 😟 😕 😐 🙂 😊 😄 😁 🤩 |
+| **Thumbs** | 👎 👎 😐 👍 👍 | 👎 👎 👎 👎 👎 😐 👍 👍 👍 👍 👍 |
+| **Hearts** | 💔 🖤 🤍 💛 ❤️ | 💔 💔 🖤 🖤 🤍 🤍 💛 💛 🧡 ❤️ ❤️‍🔥 |
+
+### Conversational Header
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `showConversationalHeader` | OnOff | `false` | Show friendly header with emoji |
+| `headerEmoji` | Text | `👋` | Emoji shown in header |
+| `headerText` | Text | `Hi there! Quick question:` | Text shown in header |
 
 ### Button Texts
 
@@ -206,6 +231,13 @@ The `submit` event fires only when the user completes the entire flow.
 1. Set `displayType` to `stars`
 2. Set `minValue` to `1`
 3. Set `maxValue` to `5`
+
+### Emoji Rating (Terminus-style)
+
+1. Set `displayType` to `emojis`
+2. Choose `emojiScale`: `5` (simple) or `11` (detailed)
+3. Choose `emojiSet`: `faces`, `thumbs`, or `hearts`
+4. Optionally enable `showConversationalHeader` for a friendly header
 
 ### Multi-step with Database Questions
 

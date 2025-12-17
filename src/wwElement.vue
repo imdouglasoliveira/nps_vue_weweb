@@ -69,6 +69,12 @@
 
         <!-- Step 1: Rating (always shown first) -->
         <div v-if="currentStepIndex === 0" class="nps-step">
+          <!-- Conversational Header (optional) -->
+          <div v-if="showConversationalHeader" class="nps-conversational-header">
+            <span class="header-emoji">{{ headerEmoji }}</span>
+            <span class="header-text">{{ headerText }}</span>
+          </div>
+
           <p v-if="content.question" class="nps-question">{{ content.question }}</p>
 
           <div v-if="content.showLabels" class="nps-labels">
@@ -90,7 +96,7 @@
           </div>
 
           <!-- Stars Display -->
-          <div v-else class="nps-stars">
+          <div v-else-if="displayType === 'stars'" class="nps-stars">
             <button
               v-for="n in scaleValues"
               :key="n"
@@ -109,6 +115,23 @@
                 />
               </svg>
             </button>
+          </div>
+
+          <!-- Emojis Display -->
+          <div v-else-if="displayType === 'emojis'" class="nps-emoji-scale">
+            <div class="emoji-container">
+              <button
+                v-for="(emoji, index) in currentEmojiSet"
+                :key="index"
+                :class="['emoji-button', { selected: selectedValue === index }]"
+                :style="getEmojiStyle(index)"
+                @click="handleSelect(index)"
+                @mouseenter="hoverValue = index"
+                @mouseleave="hoverValue = null"
+              >
+                {{ emoji }}
+              </button>
+            </div>
           </div>
 
           <button
@@ -280,6 +303,43 @@ export default {
     },
     displayType() {
       return this.content.displayType || 'numbers';
+    },
+    // Emoji scale (5 or 11)
+    emojiScale() {
+      return parseInt(this.content.emojiScale) || 5;
+    },
+    // Pre-defined emoji sets
+    emojiSets() {
+      return {
+        faces: {
+          5: ['😩', '😟', '🤔', '🙂', '😁'],
+          11: ['😡', '😠', '😩', '😟', '😕', '😐', '🙂', '😊', '😄', '😁', '🤩']
+        },
+        thumbs: {
+          5: ['👎', '👎', '😐', '👍', '👍'],
+          11: ['👎', '👎', '👎', '👎', '👎', '😐', '👍', '👍', '👍', '👍', '👍']
+        },
+        hearts: {
+          5: ['💔', '🖤', '🤍', '💛', '❤️'],
+          11: ['💔', '💔', '🖤', '🖤', '🤍', '🤍', '💛', '💛', '🧡', '❤️', '❤️‍🔥']
+        }
+      };
+    },
+    // Current emoji set based on configuration
+    currentEmojiSet() {
+      const setName = this.content.emojiSet || 'faces';
+      const scale = this.emojiScale;
+      return this.emojiSets[setName]?.[scale] || this.emojiSets.faces[5];
+    },
+    // Conversational header
+    showConversationalHeader() {
+      return this.content.showConversationalHeader === true;
+    },
+    headerEmoji() {
+      return this.content.headerEmoji || '👋';
+    },
+    headerText() {
+      return this.content.headerText || 'Hi there! Quick question:';
     },
     minValue() {
       return this.content.minValue ?? 0;
@@ -568,6 +628,17 @@ export default {
         backgroundColor: isSelected ? (this.content.primaryColor || '#1976D2') : '#f5f5f5',
         color: isSelected ? '#fff' : '#333',
         borderColor: isSelected ? (this.content.primaryColor || '#1976D2') : '#ddd',
+      };
+    },
+    getEmojiStyle(index) {
+      const isSelected = this.selectedValue === index;
+      const isHovered = this.hoverValue === index;
+      const hasSelection = this.selectedValue !== null;
+
+      return {
+        transform: isSelected ? 'scale(1.3)' : isHovered ? 'scale(1.15)' : 'scale(1)',
+        opacity: hasSelection && !isSelected ? '0.5' : '1',
+        background: isSelected ? 'rgba(255, 255, 255, 0.15)' : 'transparent'
       };
     },
     handleSelect(n) {
@@ -902,6 +973,60 @@ export default {
   transition: all 0.15s ease;
 }
 
+/* Conversational Header */
+.nps-conversational-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 12px 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.nps-conversational-header .header-emoji {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.nps-conversational-header .header-text {
+  color: inherit;
+}
+
+/* Emoji Scale */
+.nps-emoji-scale {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+  margin-bottom: 20px;
+}
+
+.emoji-container {
+  display: inline-flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.08);
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+.emoji-button {
+  font-size: 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.emoji-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.emoji-button.selected {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 .nps-options {
   display: flex;
   flex-wrap: wrap;
@@ -1017,6 +1142,26 @@ export default {
 
   .nps-star {
     padding: 2px;
+  }
+
+  /* Emoji responsive */
+  .emoji-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 280px;
+  }
+
+  .emoji-button {
+    font-size: 24px;
+    padding: 4px 6px;
+  }
+
+  .nps-conversational-header {
+    font-size: 14px;
+  }
+
+  .nps-conversational-header .header-emoji {
+    font-size: 18px;
   }
 
   .nps-option {

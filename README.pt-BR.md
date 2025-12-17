@@ -7,7 +7,9 @@ Componente customizado de Net Promoter Score (NPS) desenvolvido em Vue.js para i
 
 ## Funcionalidades
 
-- **Tipos de Exibição**: Números (0-10, 1-5, etc.) ou Estrelas
+- **Tipos de Exibição**: Números (0-10, 1-5, etc.), Estrelas ou Emojis
+- **Sets de Emojis**: Sets pré-definidos (Faces, Polegares, Corações) com escalas de 5 ou 11 opções
+- **Header Conversacional**: Header amigável opcional com emoji (👋 Olá! Pergunta rápida:)
 - **Esquemas de Cores**: Colorido (gradiente vermelho→amarelo→verde) ou Neutro (cor única)
 - **Escala Configurável**: Defina valores mínimos e máximos
 - **Perguntas Dinâmicas**: Vincule perguntas adicionais do banco de dados/JSON
@@ -126,14 +128,37 @@ nps_vue/
 | Propriedade | Tipo | Padrão | Descrição |
 |-------------|------|--------|-----------|
 | `question` | Text | `How likely are you to recommend us?` | Pergunta de avaliação |
-| `displayType` | TextSelect | `numbers` | Exibição: `numbers` ou `stars` |
-| `colorScheme` | TextSelect | `colorful` | Esquema: `colorful` ou `neutral` |
-| `minValue` | Number | `0` | Valor mínimo da escala |
-| `maxValue` | Number | `10` | Valor máximo da escala |
+| `displayType` | TextSelect | `numbers` | Exibição: `numbers`, `stars` ou `emojis` |
+| `colorScheme` | TextSelect | `colorful` | Esquema: `colorful` ou `neutral` (para números/estrelas) |
+| `minValue` | Number | `0` | Valor mínimo da escala (para números/estrelas) |
+| `maxValue` | Number | `10` | Valor máximo da escala (para números/estrelas) |
 | `buttonSize` | Number | `40` | Tamanho do botão/estrela em pixels |
 | `showLabels` | OnOff | `true` | Mostrar labels baixo/alto |
 | `lowLabel` | Text | `Not likely` | Label para nota baixa |
 | `highLabel` | Text | `Very likely` | Label para nota alta |
+
+### Configurações de Emoji (quando displayType = emojis)
+
+| Propriedade | Tipo | Padrão | Descrição |
+|-------------|------|--------|-----------|
+| `emojiScale` | TextSelect | `5` | Escala: `5` (0-4) ou `11` (0-10) emojis |
+| `emojiSet` | TextSelect | `faces` | Set: `faces`, `thumbs` ou `hearts` |
+
+**Sets de Emojis Disponíveis:**
+
+| Set | Escala 5 | Escala 11 |
+|-----|----------|-----------|
+| **Faces** | 😩 😟 🤔 🙂 😁 | 😡 😠 😩 😟 😕 😐 🙂 😊 😄 😁 🤩 |
+| **Thumbs** | 👎 👎 😐 👍 👍 | 👎 👎 👎 👎 👎 😐 👍 👍 👍 👍 👍 |
+| **Hearts** | 💔 🖤 🤍 💛 ❤️ | 💔 💔 🖤 🖤 🤍 🤍 💛 💛 🧡 ❤️ ❤️‍🔥 |
+
+### Header Conversacional
+
+| Propriedade | Tipo | Padrão | Descrição |
+|-------------|------|--------|-----------|
+| `showConversationalHeader` | OnOff | `false` | Mostrar header amigável com emoji |
+| `headerEmoji` | Text | `👋` | Emoji exibido no header |
+| `headerText` | Text | `Hi there! Quick question:` | Texto exibido no header |
 
 ### Textos dos Botões
 
@@ -206,6 +231,13 @@ O evento `submit` dispara apenas quando o usuário completa todo o fluxo.
 1. Configure `displayType` para `stars`
 2. Configure `minValue` para `1`
 3. Configure `maxValue` para `5`
+
+### Avaliação com Emojis (estilo Terminus)
+
+1. Configure `displayType` para `emojis`
+2. Escolha `emojiScale`: `5` (simples) ou `11` (detalhada)
+3. Escolha `emojiSet`: `faces`, `thumbs` ou `hearts`
+4. Opcionalmente habilite `showConversationalHeader` para um header amigável
 
 ### Multi-step com Perguntas do Banco de Dados
 
