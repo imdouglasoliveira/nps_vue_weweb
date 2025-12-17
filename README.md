@@ -287,6 +287,25 @@ The `ratingSelected` event fires **immediately** when a user clicks on a rating,
 5. Set active version
 6. In Editor: **Add panel** > **Coded components** > Drag to page
 
+## Reusing Configuration Across Pages
+
+WeWeb custom components don't automatically persist configurations when added to different pages. To reuse the same configured component across multiple pages:
+
+### Using Multi-page Sections
+
+1. **Configure the component** on the first page with all settings (properties, bindings, workflows)
+2. **Rename the Section** containing the component (e.g., `NPS - Main`)
+3. On another page, go to **Add → Multi-page sections → Pages → [source page]**
+4. **Drag the Section** to the destination page
+5. When prompted, choose **Create an instance**
+6. The Section (and component inside) is now shared - changes to one instance update all
+
+> **Tip:** Any Section in your project appears in the Multi-page sections panel automatically.
+
+### Instance vs Copy
+- **Instance**: Linked sections - changes reflect everywhere (recommended)
+- **Copy**: Independent version - for page-specific variations
+
 ## License
 
 MIT

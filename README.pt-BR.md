@@ -287,6 +287,25 @@ O evento `ratingSelected` dispara **imediatamente** quando o usuário clica em u
 5. Defina a versão ativa
 6. No Editor: **Add panel** > **Coded components** > Arraste para a página
 
+## Reutilizando Configuração em Várias Páginas
+
+Componentes customizados do WeWeb não persistem automaticamente as configurações quando adicionados em páginas diferentes. Para reutilizar o mesmo componente configurado em várias páginas:
+
+### Usando Multi-page Sections
+
+1. **Configure o componente** na primeira página com todas as configurações (propriedades, bindings, workflows)
+2. **Renomeie a Section** que contém o componente (ex: `NPS - Main`)
+3. Em outra página, vá em **Add → Multi-page sections → Pages → [página origem]**
+4. **Arraste a Section** para a página destino
+5. Quando o WeWeb perguntar, escolha **Create an instance**
+6. A Section (e o componente dentro) agora é compartilhada - mudanças em uma instância atualizam todas
+
+> **Dica:** Qualquer Section do seu projeto aparece automaticamente no painel Multi-page sections.
+
+### Instância vs Cópia
+- **Instância**: Seções vinculadas - mudanças refletem em todas (recomendado)
+- **Cópia**: Versão independente - para variações específicas por página
+
 ## Licença
 
 MIT
