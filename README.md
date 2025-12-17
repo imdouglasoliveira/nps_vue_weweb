@@ -80,7 +80,8 @@ nps_vue/
 **Compact Mode Features:**
 - Works with all rating types: Numbers, Stars, and Emojis
 - Floating card with customizable width and position
-- Auto-submit on emoji click (emojis only, when no additional questions)
+- Auto-submit on click (all types, when no additional questions)
+- Centered 6+5 layout for 11 elements (Numbers/Stars 0-10)
 - Responsive layout that adapts to different screen sizes
 - Ideal for quick feedback without full-width footers
 

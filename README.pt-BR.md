@@ -80,7 +80,8 @@ nps_vue/
 **Funcionalidades do Modo Compacto:**
 - Funciona com todos os tipos de avaliação: Números, Estrelas e Emojis
 - Card flutuante com largura e posição customizáveis
-- Auto-submit ao clicar no emoji (apenas emojis, quando não há perguntas adicionais)
+- Auto-submit ao clicar (todos os tipos, quando não há perguntas adicionais)
+- Layout 6+5 centralizado para 11 elementos (Números/Estrelas 0-10)
 - Layout responsivo que se adapta a diferentes tamanhos de tela
 - Ideal para feedback rápido sem footers full-width
 
