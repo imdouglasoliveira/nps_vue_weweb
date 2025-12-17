@@ -26,20 +26,21 @@ export default {
       },
       defaultValue: "numbers",
     },
-    layout: {
+    displayMode: {
       label: {
-        en: "Layout",
-        pt: "Layout",
+        en: "Display Mode",
+        pt: "Modo de Exibição",
       },
       type: "TextSelect",
       section: "settings",
       options: {
         options: [
-          { value: "default", label: { en: "Full Width", pt: "Largura Total" } },
+          { value: "inline", label: { en: "Inline", pt: "Inline" } },
+          { value: "fixed", label: { en: "Fixed Footer", pt: "Footer Fixo" } },
           { value: "compact", label: { en: "Compact Card", pt: "Card Compacto" } },
         ],
       },
-      defaultValue: "default",
+      defaultValue: "inline",
     },
     question: {
       label: {
@@ -186,7 +187,7 @@ export default {
         ],
       },
       defaultValue: "bottom-left",
-      hidden: (content) => content.layout !== "compact",
+      hidden: (content) => content.displayMode !== "compact",
     },
     compactWidth: {
       label: {
@@ -196,7 +197,7 @@ export default {
       type: "Number",
       section: "settings",
       defaultValue: 340,
-      hidden: (content) => content.layout !== "compact",
+      hidden: (content) => content.displayMode !== "compact",
     },
 
     // ===========================================
@@ -234,23 +235,8 @@ export default {
     },
 
     // ===========================================
-    // 5. POSITION & BEHAVIOR
+    // 5. BEHAVIOR
     // ===========================================
-    positionMode: {
-      label: {
-        en: "Display Mode",
-        pt: "Modo de Exibição",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "inline", label: { en: "Inline", pt: "Inline" } },
-          { value: "fixed", label: { en: "Fixed Footer", pt: "Footer Fixo" } },
-        ],
-      },
-      defaultValue: "inline",
-    },
     showDelay: {
       label: {
         en: "Delay (ms)",
@@ -307,7 +293,7 @@ export default {
         ],
       },
       defaultValue: "bar",
-      hidden: (content) => content.positionMode !== "fixed",
+      hidden: (content) => content.displayMode !== "fixed",
     },
     minimizedText: {
       label: {
@@ -444,7 +430,7 @@ export default {
       section: "settings",
       defaultValue: 1080,
       bindable: true,
-      hidden: (content) => content.layout === "compact",
+      hidden: (content) => content.displayMode === "compact",
     },
     primaryColor: {
       label: {

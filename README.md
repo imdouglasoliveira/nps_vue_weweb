@@ -45,7 +45,7 @@ nps_vue/
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `displayType` | TextSelect | `numbers` | Rating style: `numbers`, `stars`, or `emojis` |
-| `layout` | TextSelect | `default` | Layout: `default` (full-width) or `compact` (floating card) |
+| `displayMode` | TextSelect | `inline` | Display mode: `inline`, `fixed` (footer), or `compact` (floating card) |
 | `question` | Text | `How likely are you to recommend us?` | Main question |
 | `colorScheme` | TextSelect | `colorful` | Color mode: `colorful` or `neutral` (numbers only) |
 | `minValue` | Number | `0` | Scale min (numbers/stars only) |
@@ -70,7 +70,7 @@ nps_vue/
 | **Thumbs** | 👎 👎 😐 👍 👍 | 👎 👎 👎 👎 👎 😐 👍 👍 👍 👍 👍 |
 | **Hearts** | 💔 🖤 🤍 💛 ❤️ | 💔 💔 🖤 🖤 🤍 🤍 💛 💛 🧡 ❤️ ❤️‍🔥 |
 
-### Compact Card Settings (when layout = compact)
+### Compact Card Settings (when displayMode = compact)
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
@@ -92,11 +92,10 @@ nps_vue/
 | `headerEmoji` | Text | `👋` | Header emoji |
 | `headerText` | Text | `Hi there! Quick question:` | Header text |
 
-### Position & Behavior
+### Behavior
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `positionMode` | TextSelect | `inline` | Display mode: `inline` or `fixed` (footer) |
 | `showDelay` | Number | `0` | Delay before showing (ms) |
 | `autoCloseDelay` | Number | `0` | Auto-close after submit (ms) |
 | `showCloseButton` | OnOff | `true` | Show close button |
@@ -234,13 +233,13 @@ The `ratingSelected` event fires **immediately** when a user clicks on a rating,
 ### Emoji Rating (Compact Card)
 
 1. Set `displayType` to `emojis`
-2. Set `layout` to `compact`
+2. Set `displayMode` to `compact`
 3. Choose `emojiScale`: `5` (simple) or `11` (detailed)
 4. Choose `emojiSet`: `faces`, `thumbs`, or `hearts`
 
 ### Compact Card Mode (Any Rating Type)
 
-1. Set `layout` to `compact`
+1. Set `displayMode` to `compact`
 2. Configure `compactPosition` and `compactWidth`
 3. Works with Numbers, Stars, or Emojis
 
@@ -251,7 +250,7 @@ The `ratingSelected` event fires **immediately** when a user clicks on a rating,
 
 ### Fixed Footer Mode
 
-1. Set `positionMode` to `fixed`
+1. Set `displayMode` to `fixed`
 2. Choose `minimizedStyle`: `bar` or `floatingIcon`
 3. Configure appearance
 4. Set `autoCloseDelay` for auto-minimize after submit

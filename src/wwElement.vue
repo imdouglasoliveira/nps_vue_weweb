@@ -3,7 +3,7 @@
 
     <!-- Minimized Bar (shown when collapsed in fixed footer mode with bar style) -->
     <div
-      v-if="isMinimized && positionMode === 'fixed' && !useFloatingIcon && isControlledOpen"
+      v-if="isMinimized && isFixedMode && !useFloatingIcon && isControlledOpen"
       class="nps-minimized"
       :class="minimizedPositionClass"
       :style="minimizedStyle"
@@ -343,7 +343,7 @@ export default {
     },
     // Compact mode properties
     isCompactMode() {
-      return this.content.layout === 'compact';
+      return this.content.displayMode === 'compact';
     },
     shouldAutoSubmitEmoji() {
       // Auto-submit only for emojis in compact mode without additional questions
@@ -374,8 +374,8 @@ export default {
       }
       return arr;
     },
-    positionMode() {
-      return this.content.positionMode || 'inline';
+    isFixedMode() {
+      return this.content.displayMode === 'fixed';
     },
     minimizedIcon() {
       return this.content.minimizedIcon || 'star';
@@ -396,12 +396,12 @@ export default {
     },
     wrapperClasses() {
       return {
-        'position-fixed': this.positionMode === 'fixed',
-        'position-inline': this.positionMode === 'inline',
+        'position-fixed': this.isFixedMode,
+        'position-inline': !this.isFixedMode,
       };
     },
     wrapperStyle() {
-      if (this.positionMode === 'fixed') {
+      if (this.isFixedMode) {
         return {
           position: 'fixed',
           bottom: '0',
@@ -435,9 +435,9 @@ export default {
           style.right = '20px';
         }
       } else {
-        // Default mode
+        // Default mode (inline or fixed)
         style.width = '100%';
-        if (this.positionMode === 'fixed') {
+        if (this.isFixedMode) {
           style.boxShadow = '0 -4px 20px rgba(0, 0, 0, 0.15)';
           style.borderTopLeftRadius = '16px';
           style.borderTopRightRadius = '16px';
@@ -510,8 +510,8 @@ export default {
       return style;
     },
     useFloatingIcon() {
-      // Inline mode always uses floating icon
-      if (this.positionMode === 'inline') return true;
+      // Inline and compact modes don't use minimized bar
+      if (!this.isFixedMode) return true;
       // Fixed mode uses floating icon if minimizedStyle is 'floatingIcon'
       return this.content.minimizedStyle === 'floatingIcon';
     },

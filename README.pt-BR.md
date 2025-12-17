@@ -45,7 +45,7 @@ nps_vue/
 | Propriedade | Tipo | Padrão | Descrição |
 |-------------|------|--------|-----------|
 | `displayType` | TextSelect | `numbers` | Estilo: `numbers`, `stars` ou `emojis` |
-| `layout` | TextSelect | `default` | Layout: `default` (largura total) ou `compact` (card flutuante) |
+| `displayMode` | TextSelect | `inline` | Modo: `inline`, `fixed` (footer) ou `compact` (card flutuante) |
 | `question` | Text | `How likely are you to recommend us?` | Pergunta principal |
 | `colorScheme` | TextSelect | `colorful` | Modo de cores: `colorful` ou `neutral` (apenas números) |
 | `minValue` | Number | `0` | Escala mín (números/estrelas) |
@@ -70,7 +70,7 @@ nps_vue/
 | **Thumbs** | 👎 👎 😐 👍 👍 | 👎 👎 👎 👎 👎 😐 👍 👍 👍 👍 👍 |
 | **Hearts** | 💔 🖤 🤍 💛 ❤️ | 💔 💔 🖤 🖤 🤍 🤍 💛 💛 🧡 ❤️ ❤️‍🔥 |
 
-### Configurações do Card Compacto (quando layout = compact)
+### Configurações do Card Compacto (quando displayMode = compact)
 
 | Propriedade | Tipo | Padrão | Descrição |
 |-------------|------|--------|-----------|
@@ -92,11 +92,10 @@ nps_vue/
 | `headerEmoji` | Text | `👋` | Emoji do header |
 | `headerText` | Text | `Hi there! Quick question:` | Texto do header |
 
-### Posição e Comportamento
+### Comportamento
 
 | Propriedade | Tipo | Padrão | Descrição |
 |-------------|------|--------|-----------|
-| `positionMode` | TextSelect | `inline` | Modo: `inline` ou `fixed` (footer) |
 | `showDelay` | Number | `0` | Delay para exibir (ms) |
 | `autoCloseDelay` | Number | `0` | Auto-fechar após enviar (ms) |
 | `showCloseButton` | OnOff | `true` | Botão fechar |
@@ -234,13 +233,13 @@ O evento `ratingSelected` dispara **imediatamente** quando o usuário clica em u
 ### Avaliação com Emojis (Card Compacto)
 
 1. Configure `displayType` para `emojis`
-2. Configure `layout` para `compact`
+2. Configure `displayMode` para `compact`
 3. Escolha `emojiScale`: `5` (simples) ou `11` (detalhada)
 4. Escolha `emojiSet`: `faces`, `thumbs` ou `hearts`
 
 ### Modo Card Compacto (Qualquer Tipo de Avaliação)
 
-1. Configure `layout` para `compact`
+1. Configure `displayMode` para `compact`
 2. Configure `compactPosition` e `compactWidth`
 3. Funciona com Números, Estrelas ou Emojis
 
@@ -251,7 +250,7 @@ O evento `ratingSelected` dispara **imediatamente** quando o usuário clica em u
 
 ### Modo Footer Fixo
 
-1. Configure `positionMode` para `fixed`
+1. Configure `displayMode` para `fixed`
 2. Escolha `minimizedStyle`: `bar` ou `floatingIcon`
 3. Configure a aparência
 4. Configure `autoCloseDelay` para auto-minimizar após enviar
