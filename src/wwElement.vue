@@ -913,7 +913,7 @@ export default {
 }
 
 .nps-host.nps-compact .nps-emoji-scale {
-  justify-content: flex-start;
+  justify-content: center;
   margin-bottom: 0;
 }
 
